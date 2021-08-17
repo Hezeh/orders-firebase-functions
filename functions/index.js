@@ -16,7 +16,7 @@ exports.createAllOrdersDoc = functions.firestore
         const _merchantId = _data['item']['userId']
         console.log(_data);
         await allOrdersRef.doc(`${orderId}`).set(_data);
-        await merchantOrdersRef.doc(_merchantId).collection('orders').set(_data)
+        await merchantOrdersRef.doc(_merchantId).collection('orders').doc(orderId).set(_data)
     });
 
 // On consumers/{userId}/orders/{orderId} document updated
@@ -29,7 +29,7 @@ exports.updateAllOrdersDoc = functions.firestore
         const _merchantId = dataAfter['item']['userId']
         console.log(dataAfter);
         await allOrdersRef.doc(orderId).set({ dataAfter }, { merge: true });
-        await merchantOrdersRef.doc(_merchantId).collection('orders').set(_data, {merge: true})
+        await merchantOrdersRef.doc(_merchantId).collection('orders').doc(orderId).set(_data, {merge: true})
     });
 
 
